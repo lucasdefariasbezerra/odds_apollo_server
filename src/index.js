@@ -16,6 +16,11 @@ const typeDefs = gql`
     name: String
     sport: Sport
   }
+
+  type TeamPage {
+    total: Int
+    items: [Team]
+  }
   
   type Country {
     id: ID
@@ -31,6 +36,7 @@ const typeDefs = gql`
     country(id: ID!): Country
     teams: [Team]
     team(id: ID): Team
+    paginatedTeams(pageNum: Int, pageSize: Int): TeamPage 
   }
 `;
 

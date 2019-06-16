@@ -9,6 +9,7 @@ const resolvers = {
       country: countryResolver.getCountryById,
       teams: teamResolver.getAllTeams,
       team: teamResolver.getTeamById,
+      paginatedTeams: teamResolver.getPaginatedTeams,
     },
 };
 

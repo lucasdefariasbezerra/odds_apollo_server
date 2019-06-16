@@ -17,6 +17,11 @@ class TeamDataSource extends RESTDataSource {
         const team = await this.get(`${TEAM}/${id}`);
         return team;
     }
+
+    async getPaginatedTeam(pageNum, pageSize) {
+        const page = await this.get(`${TEAM}?pageNum=${pageNum}&pageSize=${pageSize}`);
+        return page;
+    }
 }
 
 module.exports = TeamDataSource;
