@@ -21,6 +21,11 @@ const typeDefs = gql`
     total: Int
     items: [Team]
   }
+
+  type CountryPage {
+    total: Int
+    items: [Country]
+  }
   
   type Country {
     id: ID
@@ -34,6 +39,7 @@ const typeDefs = gql`
   type Query {
     countries: [Country]
     country(id: ID!): Country
+    paginatedCountries(pageNum: Int, pageSize: Int): CountryPage
     teams: [Team]
     team(id: ID): Team
     paginatedTeams(pageNum: Int, pageSize: Int): TeamPage 

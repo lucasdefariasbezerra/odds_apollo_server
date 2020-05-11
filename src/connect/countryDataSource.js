@@ -1,9 +1,9 @@
 const { RESTDataSource } = require('apollo-datasource-rest');
-const { BACKEND_URL, COUNTRY } = require('../utils/restConsts')
+const { BACKEND_URL, COUNTRY } = require('../utils/restConsts');
+const { handleError } = require('../utils/exceptionHandler');
 
 class CountryDataSource extends RESTDataSource {
     constructor() {
-        console.log('backend url ', BACKEND_URL);
         super();
         this.baseURL = BACKEND_URL;
     }
@@ -13,9 +13,18 @@ class CountryDataSource extends RESTDataSource {
         return countries;
     }
 
+    async getPaginatedCountries(pageNum, pageSize) {
+        const  countriesPage = await this.get(`${COUNTRY}?pageNum=${pageNum}&pageSize=${pageSize}`);
+        return countriesPage;
+    }
+
     async getCountryById(id) {
-        const country = await this.get(`${COUNTRY}/${id}`);
-        return country;
+        try {
+            const country = await this.get(`${COUNTRY}/${id}`);
+            return country;
+        } catch(error) {
+            handleError(error);
+        }
     }
 }
 

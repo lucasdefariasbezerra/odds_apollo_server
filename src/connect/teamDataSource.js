@@ -3,7 +3,6 @@ const { BACKEND_URL, TEAM } = require('../utils/restConsts')
 
 class TeamDataSource extends RESTDataSource {
     constructor() {
-        console.log('backend url ', BACKEND_URL);
         super();
         this.baseURL = BACKEND_URL;
     }
@@ -14,8 +13,13 @@ class TeamDataSource extends RESTDataSource {
     }
 
     async getTeamById(id) {
-        const team = await this.get(`${TEAM}/${id}`);
-        return team;
+        try {
+            const team = await this.get(`${TEAM}/${id}`);
+            return team;
+        } catch(error) {
+            handleError(error);
+        }
+        
     }
 
     async getPaginatedTeam(pageNum, pageSize) {
