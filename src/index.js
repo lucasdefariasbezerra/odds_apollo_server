@@ -1,6 +1,7 @@
 const { ApolloServer, gql } = require('apollo-server');
 const CountryDataSource = require('./connect/countryDataSource');
-const TeamDataSource = require('./connect/teamDataSource')
+const TeamDataSource = require('./connect/teamDataSource');
+const SportDataSource = require('./connect/sportDataSource');
 const resolvers = require('./resolvers/index');
 
 const typeDefs = gql`
@@ -34,15 +35,33 @@ const typeDefs = gql`
     region: String
   }
 
-  # The "Query" type is the root of all GraphQL queries.
-  # (A "Mutation" type will be covered later on.)
+  type Message {
+    status: Int
+    description: String
+  }
+
+  input teamRequestPayload {
+    id: ID
+    name: String
+    sport: sportPayload
+  }
+
+  input sportPayload {
+    id: ID
+  }
+
   type Query {
     countries: [Country]
     country(id: ID!): Country
     paginatedCountries(pageNum: Int, pageSize: Int): CountryPage
     teams: [Team]
+    sports: [Sport]
     team(id: ID): Team
     paginatedTeams(pageNum: Int, pageSize: Int): TeamPage 
+  }
+
+  type Mutation {
+    updateTeams(teamPayload: teamRequestPayload): Message
   }
 `;
 
@@ -56,7 +75,8 @@ const server = new ApolloServer({
     dataSources: () => {
       return {
         countryDataSource: new CountryDataSource(),
-        teamDataSource: new TeamDataSource()
+        teamDataSource: new TeamDataSource(),
+        sportDataSource: new SportDataSource(),
       };
     }
 });

@@ -1,5 +1,6 @@
 const { RESTDataSource } = require('apollo-datasource-rest');
-const { BACKEND_URL, TEAM } = require('../utils/restConsts')
+const { BACKEND_URL, TEAM } = require('../utils/restConsts');
+const { handleError } = require('../utils/exceptionHandler');
 
 class TeamDataSource extends RESTDataSource {
     constructor() {
@@ -20,6 +21,15 @@ class TeamDataSource extends RESTDataSource {
             handleError(error);
         }
         
+    }
+
+    async updateTeam(teamPayload) {
+        try {
+           await this.put(`${TEAM}`, teamPayload);
+           return { status: 200, description: 'update was successfull' };
+        } catch(error) {
+            handleError(error);
+        }
     }
 
     async getPaginatedTeam(pageNum, pageSize) {

@@ -1,5 +1,6 @@
 const countryResolver = require('./countryResolver');
 const teamResolver = require('./teamResolver');
+const sportResolver = require('./sportResolver');
 
 // Resolvers define the technique for fetching the types in the
 // schema.  We'll retrieve books from the "books" array above.
@@ -10,8 +11,12 @@ const resolvers = {
       teams: teamResolver.getAllTeams,
       team: teamResolver.getTeamById,
       paginatedTeams: teamResolver.getPaginatedTeams,
-      paginatedCountries: countryResolver.paginatedCountries
+      paginatedCountries: countryResolver.paginatedCountries,
+      sports: sportResolver.getAllSports
     },
+    Mutation: {
+      updateTeams: teamResolver.updateTeams
+    }
 };
 
 module.exports = resolvers;
