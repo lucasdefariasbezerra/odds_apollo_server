@@ -47,7 +47,8 @@ const typeDefs = gql`
   }
 
   input sportPayload {
-    id: ID
+    id: ID,
+    name: String
   }
 
   type Query {
