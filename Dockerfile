@@ -3,5 +3,5 @@ COPY . /app
 
 EXPOSE 4000
 ENV BACKEND_URL=http://odds-micro:8080/api/
-RUN yarn install && cd /app/
+RUN cd /app/ && yarn install
 CMD ["yarn", "--cwd","/app","start"]
