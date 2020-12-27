@@ -15,7 +15,8 @@ const resolvers = {
       sports: sportResolver.getAllSports
     },
     Mutation: {
-      updateTeams: teamResolver.updateTeams
+      updateTeams: teamResolver.updateTeams,
+      addTeam: teamResolver.addTeam
     }
 };
 

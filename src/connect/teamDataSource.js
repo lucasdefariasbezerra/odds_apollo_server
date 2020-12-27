@@ -32,6 +32,15 @@ class TeamDataSource extends RESTDataSource {
         }
     }
 
+    async addTeam(teamPayload) {
+        try {
+           await this.post(`${TEAM}`, teamPayload);
+           return { status: 200, description: 'new team was added' };
+        } catch(error) {
+            handleError(error);
+        }
+    }
+
     async getPaginatedTeam(pageNum, pageSize) {
         const page = await this.get(`${TEAM}?pageNum=${pageNum}&pageSize=${pageSize}`);
         return page;

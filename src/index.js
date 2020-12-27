@@ -63,6 +63,7 @@ const typeDefs = gql`
 
   type Mutation {
     updateTeams(teamPayload: teamRequestPayload): Message
+    addTeam(teamPayload: teamRequestPayload): Message
   }
 `;
 
