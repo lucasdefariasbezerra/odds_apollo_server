@@ -11,13 +11,11 @@ const getPaginatedTeams = (_source, { pageNum, pageSize }, { dataSources }) => {
 }
 
 const updateTeams = (_source, { teamPayload }, { dataSources }) => {
-    console.log('here update ', teamPayload);
     const response = dataSources.teamDataSource.updateTeam(teamPayload);
     return response;
 }
 
 const addTeam = (_source, { teamPayload }, { dataSources }) => {
-    console.log('here add ', teamPayload);
     const response = dataSources.teamDataSource.addTeam(teamPayload);
     return response;
 };

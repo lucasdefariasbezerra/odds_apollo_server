@@ -15,6 +15,7 @@ const typeDefs = gql`
   type Team {
     id: ID
     name: String
+    country:Country
     sport: Sport
   }
 
@@ -44,9 +45,15 @@ const typeDefs = gql`
     id: ID
     name: String
     sport: sportPayload
+    country: countryPayload
   }
 
   input sportPayload {
+    id: ID,
+    name: String
+  }
+
+  input countryPayload {
     id: ID,
     name: String
   }
