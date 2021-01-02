@@ -32,7 +32,7 @@ const typeDefs = gql`
   type Country {
     id: ID
     name: String
-    threeLetterCode: String 
+    threeLetterCode: String
     region: String
   }
 
@@ -49,13 +49,14 @@ const typeDefs = gql`
   }
 
   input sportPayload {
-    id: ID,
+    id: ID
     name: String
   }
 
   input countryPayload {
-    id: ID,
+    id: ID
     name: String
+    threeLetterCode: String
   }
 
   type Query {
