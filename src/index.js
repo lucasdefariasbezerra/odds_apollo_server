@@ -2,11 +2,12 @@ const { ApolloServer, gql } = require('apollo-server');
 const CountryDataSource = require('./connect/countryDataSource');
 const TeamDataSource = require('./connect/teamDataSource');
 const SportDataSource = require('./connect/sportDataSource');
+const SeasonDataSource = require('./connect/seasonDataSource');
 const resolvers = require('./resolvers/index');
 
 const typeDefs = gql`
   # Comments in GraphQL are defined with the hash (#) symbol.
-
+  scalar Date 
   type Sport {
     id: ID
     name: String
@@ -36,9 +37,43 @@ const typeDefs = gql`
     region: String
   }
 
+  type Season {
+    id: ID
+    name: String
+    type: String
+    description: String
+    seasonDate: String
+  }
+
+  type Tournment {
+    id: ID
+    name: String
+    description: String
+  }
+
+
+  type SeasonPage {
+    total: Int
+    items: [Season]
+  }
+
   type Message {
     status: Int
     description: String
+  }
+
+  input seasonRequestPayload {
+    id: ID
+    nameRight: String
+    type: String
+    seasonStart: Date
+    seasonEnd: Date
+    tournment: tournmentPayload
+  }
+
+  input tournmentPayload {
+    id: ID
+    name: String
   }
 
   input teamRequestPayload {
@@ -61,17 +96,22 @@ const typeDefs = gql`
 
   type Query {
     countries: [Country]
-    country(id: ID!): Country
-    paginatedCountries(pageNum: Int, pageSize: Int): CountryPage
     teams: [Team]
+    seasons: [Season]
+    tournments: [Tournment]
     sports: [Sport]
     team(id: ID): Team
-    paginatedTeams(pageNum: Int, pageSize: Int): TeamPage 
+    season(id: ID): Season
+    country(id: ID!): Country
+    paginatedTeams(pageNum: Int, pageSize: Int): TeamPage
+    paginatedCountries(pageNum: Int, pageSize: Int): CountryPage
+    paginatedSeasons(pageNum: Int, pageSize: Int): SeasonPage 
   }
 
   type Mutation {
     updateTeams(teamPayload: teamRequestPayload): Message
     addTeam(teamPayload: teamRequestPayload): Message
+    addSeason(seasonPayload: seasonRequestPayload): Message
   }
 `;
 
@@ -87,6 +127,7 @@ const server = new ApolloServer({
         countryDataSource: new CountryDataSource(),
         teamDataSource: new TeamDataSource(),
         sportDataSource: new SportDataSource(),
+        seasonDataSource: new SeasonDataSource()
       };
     }
 });
