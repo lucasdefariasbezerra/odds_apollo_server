@@ -3,6 +3,7 @@ const CountryDataSource = require('./connect/countryDataSource');
 const TeamDataSource = require('./connect/teamDataSource');
 const SportDataSource = require('./connect/sportDataSource');
 const SeasonDataSource = require('./connect/seasonDataSource');
+const MatchDataSource = require('./connect/matchDataSource');
 const resolvers = require('./resolvers/index');
 
 const typeDefs = gql`
@@ -18,6 +19,24 @@ const typeDefs = gql`
     name: String
     country:Country
     sport: Sport
+  }
+
+  type Match {
+    id: ID
+    seasonId: Int,
+    groupDesc: String,
+    groupKey: String,
+    teamHome: String,
+    teamAway: String,
+    scoreHome: Int,
+    scoreAway: Int,
+    round: Int,
+    date: String
+  }
+
+  type MatchPage {
+    total: Int
+    items: [Match]
   }
 
   type TeamPage {
@@ -105,7 +124,8 @@ const typeDefs = gql`
     country(id: ID!): Country
     paginatedTeams(pageNum: Int, pageSize: Int): TeamPage
     paginatedCountries(pageNum: Int, pageSize: Int): CountryPage
-    paginatedSeasons(pageNum: Int, pageSize: Int): SeasonPage 
+    paginatedSeasons(pageNum: Int, pageSize: Int): SeasonPage
+    paginatedMatches(pageNum:Int, pageSize: Int): MatchPage 
   }
 
   type Mutation {
@@ -127,7 +147,8 @@ const server = new ApolloServer({
         countryDataSource: new CountryDataSource(),
         teamDataSource: new TeamDataSource(),
         sportDataSource: new SportDataSource(),
-        seasonDataSource: new SeasonDataSource()
+        seasonDataSource: new SeasonDataSource(),
+        matchDataSource: new MatchDataSource()
       };
     }
 });

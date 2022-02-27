@@ -2,6 +2,7 @@ const countryResolver = require('./countryResolver');
 const teamResolver = require('./teamResolver');
 const sportResolver = require('./sportResolver');
 const seasonResolver = require('./seasonResolver');
+const matchResolver = require('./matchResolver');
 const { GraphQLScalarType } = require('graphql');
 
 const dateScalar = new GraphQLScalarType({
@@ -39,7 +40,8 @@ const resolvers = {
       seasons: seasonResolver.getAllSeasons,
       season: seasonResolver.getSeasonById,
       tournments: seasonResolver.getAllTournments,
-      paginatedSeasons: seasonResolver.getPaginatedSeasons
+      paginatedSeasons: seasonResolver.getPaginatedSeasons,
+      paginatedMatches: matchResolver.paginatedMatches
     },
     Mutation: {
       updateTeams: teamResolver.updateTeams,
