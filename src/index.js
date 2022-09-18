@@ -23,15 +23,16 @@ const typeDefs = gql`
 
   type Match {
     id: ID
-    seasonId: Int,
-    groupDesc: String,
-    groupKey: String,
-    teamHome: String,
-    teamAway: String,
-    scoreHome: Int,
-    scoreAway: Int,
-    round: Int,
+    seasonId: Int
+    groupDesc: String
+    groupKey: String
+    teamHome: String
+    teamAway: String
+    scoreHome: Int
+    scoreAway: Int
+    round: Int
     date: String
+    processed: Int
   }
 
   type MatchPage {
@@ -90,6 +91,12 @@ const typeDefs = gql`
     tournment: tournmentPayload
   }
 
+  input ScoreUpdatePayload {
+    id: Int
+    scoreHome: Int
+    scoreAway: Int
+  }
+
   input tournmentPayload {
     id: ID
     name: String
@@ -125,13 +132,14 @@ const typeDefs = gql`
     paginatedTeams(pageNum: Int, pageSize: Int): TeamPage
     paginatedCountries(pageNum: Int, pageSize: Int): CountryPage
     paginatedSeasons(pageNum: Int, pageSize: Int): SeasonPage
-    paginatedMatches(pageNum:Int, pageSize: Int): MatchPage 
+    paginatedMatches(pageNum:Int, pageSize: Int, seasonId: Int): MatchPage 
   }
 
   type Mutation {
     updateTeams(teamPayload: teamRequestPayload): Message
     addTeam(teamPayload: teamRequestPayload): Message
     addSeason(seasonPayload: seasonRequestPayload): Message
+    updateScores(scoreUpdatePayload: [ScoreUpdatePayload]): Message
   }
 `;
 
