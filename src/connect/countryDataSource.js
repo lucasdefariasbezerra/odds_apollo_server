@@ -8,6 +8,10 @@ class CountryDataSource extends RESTDataSource {
         this.baseURL = BACKEND_URL;
     }
 
+    willSendRequest(request) {
+        request.headers.set('Authorization', this.context.token);
+    }
+
     async getAllCountries() {
         const countries = await this.get(COUNTRY);
         return countries;

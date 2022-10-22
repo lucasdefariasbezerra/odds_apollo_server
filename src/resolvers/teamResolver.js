@@ -3,7 +3,12 @@ const getAllTeams = (_source, _args, { dataSources }) => {
 }
 
 const getTeamById = (_source, { id }, { dataSources }) => {
-    return dataSources.teamDataSource.getTeamById(id);
+    try {
+        return dataSources.teamDataSource.getTeamById(id);
+    } catch (error) {
+        console.log('error on resolve ', error);
+    }
+    
 }
 
 const getPaginatedTeams = (_source, { pageNum, pageSize }, { dataSources }) => {

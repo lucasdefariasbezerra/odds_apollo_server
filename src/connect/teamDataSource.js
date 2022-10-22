@@ -8,6 +8,10 @@ class TeamDataSource extends RESTDataSource {
         this.baseURL = BACKEND_URL;
     }
 
+    willSendRequest(request) {
+        request.headers.set('Authorization', this.context.token);
+    }
+
     async getAllTeams() {
         const teams = await this.get(TEAM);
         return teams;

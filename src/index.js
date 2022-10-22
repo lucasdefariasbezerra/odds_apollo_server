@@ -2,6 +2,7 @@ const { ApolloServer, gql } = require('apollo-server');
 const CountryDataSource = require('./connect/countryDataSource');
 const TeamDataSource = require('./connect/teamDataSource');
 const SportDataSource = require('./connect/sportDataSource');
+const UserDataSource = require('./connect/userDataSource');
 const resolvers = require('./resolvers/index');
 
 const typeDefs = gql`
@@ -10,6 +11,11 @@ const typeDefs = gql`
   type Sport {
     id: ID
     name: String
+  }
+
+  type User {
+    id: ID
+    username: String
   }
 
   type Team {
@@ -66,6 +72,7 @@ const typeDefs = gql`
     teams: [Team]
     sports: [Sport]
     team(id: ID): Team
+    userInfo: User
     paginatedTeams(pageNum: Int, pageSize: Int): TeamPage 
   }
 
@@ -82,11 +89,16 @@ const typeDefs = gql`
 const server = new ApolloServer({ 
     typeDefs,
     resolvers,
+    context: ({ req }) => {
+      const token = req.headers.authorization || '';
+      return { token };
+    },
     dataSources: () => {
       return {
         countryDataSource: new CountryDataSource(),
         teamDataSource: new TeamDataSource(),
         sportDataSource: new SportDataSource(),
+        userDataSource: new UserDataSource(),
       };
     }
 });
