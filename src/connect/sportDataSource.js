@@ -8,6 +8,10 @@ class SportDataSource extends RESTDataSource {
         this.baseURL = BACKEND_URL;
     }
 
+    willSendRequest(request) {
+        request.headers.set('Authorization', this.context.token);
+    }
+
     async getAllSports() {
         const sports = await this.get(SPORT);
         return sports;

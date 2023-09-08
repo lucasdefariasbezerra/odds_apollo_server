@@ -10,7 +10,14 @@ const updateScores = (_source, { scoreUpdatePayload }, { dataSources }) => {
     return response;
 };
 
+const resetMatch = (_source, { match }, { dataSources }) => {
+    console.log(' reset match payload ', match);
+    const response = dataSources.matchDataSource.resetMatch(match);
+    return response;
+}
+
 module.exports = {
     paginatedMatches,
-    updateScores
+    updateScores,
+    resetMatch
 }

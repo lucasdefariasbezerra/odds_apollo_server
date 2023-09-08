@@ -24,6 +24,7 @@ const dateScalar = new GraphQLScalarType({
     return null; // Invalid hard-coded value (not an integer)
   },
 });
+const userResolver = require('./userResolver');
 
 // Resolvers define the technique for fetching the types in the
 // schema.  We'll retrieve books from the "books" array above.
@@ -41,13 +42,16 @@ const resolvers = {
       season: seasonResolver.getSeasonById,
       tournments: seasonResolver.getAllTournments,
       paginatedSeasons: seasonResolver.getPaginatedSeasons,
-      paginatedMatches: matchResolver.paginatedMatches
+      paginatedMatches: matchResolver.paginatedMatches,
+      userInfo: userResolver.userInfo,
+      sports: sportResolver.getAllSports
     },
     Mutation: {
       updateTeams: teamResolver.updateTeams,
       addTeam: teamResolver.addTeam,
       addSeason: seasonResolver.addSeason,
-      updateScores: matchResolver.updateScores
+      updateScores: matchResolver.updateScores,
+      resetMatch: matchResolver.resetMatch
     }
 };
 

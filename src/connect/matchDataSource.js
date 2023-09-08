@@ -8,6 +8,10 @@ class MatchDataSource extends RESTDataSource {
         this.baseURL = BACKEND_URL;
     }
 
+    willSendRequest(request) {
+        request.headers.set('Authorization', this.context.token);
+    }
+
     async getPaginatedMatches(pageNum, pageSize, seasonId) {
         const matches = await this.get(`${MATCH}?pageNum=${pageNum}&pageSize=${pageSize}&seasonId=${seasonId}`);
         return matches
@@ -19,6 +23,15 @@ class MatchDataSource extends RESTDataSource {
             return { status: 200, description: message };
         } catch(error) {
             handleError(error);
+        }
+    }
+
+    async resetMatch(matchPayload) {
+        try {
+            const { message } = await this.put(`${MATCH}/match-reset`, matchPayload);
+            return { status: 200, description: message};
+        } catch(error) {
+            handleError(error)
         }
     }
 

@@ -4,14 +4,21 @@ const TeamDataSource = require('./connect/teamDataSource');
 const SportDataSource = require('./connect/sportDataSource');
 const SeasonDataSource = require('./connect/seasonDataSource');
 const MatchDataSource = require('./connect/matchDataSource');
+const UserDataSource = require('./connect/userDataSource');
 const resolvers = require('./resolvers/index');
 
 const typeDefs = gql`
   # Comments in GraphQL are defined with the hash (#) symbol.
-  scalar Date 
+  scalar Date
+  
   type Sport {
     id: ID
     name: String
+  }
+
+  type User {
+    id: ID
+    username: String
   }
 
   type Team {
@@ -133,6 +140,7 @@ const typeDefs = gql`
     paginatedCountries(pageNum: Int, pageSize: Int): CountryPage
     paginatedSeasons(pageNum: Int, pageSize: Int): SeasonPage
     paginatedMatches(pageNum:Int, pageSize: Int, seasonId: Int): MatchPage 
+    userInfo: User 
   }
 
   type Mutation {
@@ -140,6 +148,7 @@ const typeDefs = gql`
     addTeam(teamPayload: teamRequestPayload): Message
     addSeason(seasonPayload: seasonRequestPayload): Message
     updateScores(scoreUpdatePayload: [ScoreUpdatePayload]): Message
+    resetMatch(match: ScoreUpdatePayload): Message
   }
 `;
 
@@ -150,13 +159,18 @@ const typeDefs = gql`
 const server = new ApolloServer({ 
     typeDefs,
     resolvers,
+    context: ({ req }) => {
+      const token = req.headers.authorization || '';
+      return { token };
+    },
     dataSources: () => {
       return {
         countryDataSource: new CountryDataSource(),
         teamDataSource: new TeamDataSource(),
         sportDataSource: new SportDataSource(),
         seasonDataSource: new SeasonDataSource(),
-        matchDataSource: new MatchDataSource()
+        matchDataSource: new MatchDataSource(),
+        userDataSource: new UserDataSource(),
       };
     }
 });

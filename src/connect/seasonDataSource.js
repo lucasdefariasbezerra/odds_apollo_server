@@ -8,6 +8,10 @@ class SeasonDataSource extends RESTDataSource {
         this.baseURL = BACKEND_URL;
     }
 
+    willSendRequest(request) {
+        request.headers.set('Authorization', this.context.token);
+    }
+
     async getAllSeasons() {
         const seasons = await this.get(SEASON);
         return seasons;
@@ -29,6 +33,7 @@ class SeasonDataSource extends RESTDataSource {
 
     async addSeason(seasonPayload) {
         try {
+           console.log('season payload');
            await this.post(`${SEASON}`, seasonPayload);
            return { status: 200, description: 'new season was added' };
         } catch(error) {
